@@ -1,4 +1,5 @@
 ﻿using WPiAA.Builder;
+using WPiAA.Facade;
 using WPiAA.Factory;
 using WPiAA.Singleton;
 
@@ -82,6 +83,31 @@ namespace WPiAA
             konny2.Walcz();
             strzelec1.Walcz();
             strzelec2.Walcz();
+
+            Console.WriteLine("");
+            Console.WriteLine("");
+
+            ////////////////////////////////////////////////////////
+
+
+
+            ////////////////////////////////////////////////////////
+
+            Prototype.Ork ork = new Prototype.Ork();
+            ork.CreateAndShowOrk();
+
+            Console.WriteLine("");
+            Console.WriteLine("");
+
+            ////////////////////////////////////////////////////////
+
+
+
+            ////////////////////////////////////////////////////////
+
+            const string apiKey = "API-KEY";
+            Weather weatherService = new Weather(apiKey);
+            weatherService.GetWeatherFrom("Warsaw").GetAwaiter().GetResult();
 
             Console.WriteLine("");
             Console.WriteLine("");
