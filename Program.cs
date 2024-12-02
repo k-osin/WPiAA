@@ -1,8 +1,11 @@
 ﻿using WPiAA.Adapter;
 using WPiAA.Bridge;
 using WPiAA.Builder;
+using WPiAA.Composite;
+using WPiAA.Decorator;
 using WPiAA.Facade;
 using WPiAA.Factory;
+using WPiAA.Flyweight;
 using WPiAA.Proxy;
 using WPiAA.Singleton;
 using OperatingSystem = WPiAA.Bridge.OperatingSystem;
@@ -209,6 +212,87 @@ namespace WPiAA
             Console.WriteLine("");
 
             ////////////////////////////////////////////////////////
+            ///
+
+
+
+
+
+            //////////////////////////////////////////////////////// DECORATOR
+            
+            Console.WriteLine("DECORATOR:");
+            IPayment cardPayment = new CardPayment();
+            cardPayment = new SMSNotification(cardPayment);
+            cardPayment = new LoyaltyPoints(cardPayment);
+            cardPayment = new RedirectToHome(cardPayment);
+
+            Shop shop = new Shop(cardPayment);
+            shop.ProcessPayment();
+
+            ////////////////////////////////////////////////////////
+            ///
+
+
+
+
+            //////////////////////////////////////////////////////// COMPOSITE
+
+   
+            Dish pizza = new Dish("Pizza Margherita", 19.99m);
+            Dish pasta = new Dish("Spaghetti Carbonara", 22.99m);
+            Dish salad = new Dish("Sałatka grecka", 14.99m);
+
+       
+            MenuCategory starters = new MenuCategory("Przystawki");
+            MenuCategory mains = new MenuCategory("Dania główne");
+            MenuCategory desserts = new MenuCategory("Desery");
+
+        
+            starters.Add(salad);
+            mains.Add(pizza);
+            mains.Add(pasta);
+            desserts.Add(new Dish("Tiramisu", 12.99m));
+
+    
+            MenuCategory menu = new MenuCategory("Menu restauracji");
+            menu.Add(starters);
+            menu.Add(mains);
+            menu.Add(desserts);
+
+
+            menu.Display(3);
+
+            ////////////////////////////////////////////////////////
+            ///
+
+
+
+
+            //////////////////////////////////////////////////////// Flyweight
+
+            TextureFactory textureFactory = new TextureFactory();
+
+            ITexture treeTexture = textureFactory.GetTexture("tree.png");
+            ITexture playerTexture = textureFactory.GetTexture("player.png");
+            ITexture rockTexture = textureFactory.GetTexture("rock.png");
+            ITexture anotherTreeTexture = textureFactory.GetTexture("tree.png");
+
+            GameObject tree1 = new GameObject(treeTexture);
+            GameObject tree2 = new GameObject(treeTexture);
+            GameObject player = new GameObject(playerTexture);
+            GameObject rock = new GameObject(rockTexture);
+            GameObject player2 = new GameObject(playerTexture);
+
+            tree1.Display();
+            tree2.Display();
+            player.Display();
+            rock.Display();
+            player2.Display();
+
+            Console.WriteLine($"Czy tekstura 'tree.png' jest współdzielona? {ReferenceEquals(treeTexture, anotherTreeTexture)}");
+
+            //////////////////////////////////////////////////////// Flyweight
+
         }
     }
 }
